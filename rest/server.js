@@ -13,9 +13,15 @@ app.get('/users', function(req,res) {
 res.send(user_id + ' '+ token + ' '+ geo);
 });
 
- app.get('/users/:version', function(req, res) {
-    res.send(req.params.version);
-  });
+ app.param('name', function(req,res,next,name){
+  var modified = name ;
+  req.name = modified;
+  next();
+});
+
+app.get('/users/:name', function(req,res){
+  res.send('What is up ' + req.name);
+});
 
 app.listen(port);
 console.log("We are live at "+ port);
