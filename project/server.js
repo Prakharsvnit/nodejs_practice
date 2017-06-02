@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
+var ejs = require('ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 var port = process.env.PORT || 8080;
@@ -28,11 +29,10 @@ app.post('/quotes', function(req, res){
 
 
 app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/index.html');
-		db.collection('quotes').find().toArray(function(err,results){
-			if(err){
-				return console.log(err);
-			}
+	db.collection('quotes').find().toArray(function(err,results){
+		if(err){
+			return console.log(err);
+		}
 	res.render('index.ejs', {quotes: results});
 	});
 });
